@@ -29,6 +29,7 @@ typedef struct {
 Menu menu[4];
 
 extern uint16_t ADValue[3];
+extern uint16_t W25Q64Value[3];
 
 void Menu_ShowAD(void)
 {
@@ -36,7 +37,14 @@ void Menu_ShowAD(void)
 	OLED_ShowNum(40,32,ADValue[1],4,OLED_8X16);
 	OLED_ShowNum(40,48,ADValue[2],4,OLED_8X16);
 }
-	
+
+void Menu_ShowW25Q64(void)
+{
+	OLED_ShowNum(40,16,W25Q64Value[0],4,OLED_8X16);
+	OLED_ShowNum(40,32,W25Q64Value[1],4,OLED_8X16);
+	OLED_ShowNum(40,48,W25Q64Value[2],4,OLED_8X16);
+}
+
 void Menu_Init(void)
 {
     strcpy(menu[0].title, "Main Menu");

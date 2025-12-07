@@ -30,5 +30,5 @@ void back(void);
 void confirm(void);
 
 void Menu_ShowAD(void);
-
+void Menu_ShowW25Q64(void);
 #endif
