@@ -785,6 +785,31 @@
               <FileType>5</FileType>
               <FilePath>.\Hardware\W25Q64_Ins.h</FilePath>
             </File>
+            <File>
+              <FileName>MPU6050.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\MPU6050.c</FilePath>
+            </File>
+            <File>
+              <FileName>MPU6050.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\MPU6050.h</FilePath>
+            </File>
+            <File>
+              <FileName>MPU6050_Reg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\MPU6050_Reg.h</FilePath>
+            </File>
+            <File>
+              <FileName>Serial.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\Serial.c</FilePath>
+            </File>
+            <File>
+              <FileName>Serial.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\Serial.h</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

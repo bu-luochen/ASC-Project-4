@@ -31,4 +31,5 @@ void confirm(void);
 
 void Menu_ShowAD(void);
 void Menu_ShowW25Q64(void);
+void Menu_ShowAngle(void);
 #endif

@@ -30,6 +30,7 @@ Menu menu[4];
 
 extern uint16_t ADValue[3];
 extern uint16_t W25Q64Value[3];
+extern float Angle[3];
 
 void Menu_ShowAD(void)
 {
@@ -44,7 +45,13 @@ void Menu_ShowW25Q64(void)
 	OLED_ShowNum(40,32,W25Q64Value[1],4,OLED_8X16);
 	OLED_ShowNum(40,48,W25Q64Value[2],4,OLED_8X16);
 }
-
+void Menu_ShowAngle(void)
+{
+	OLED_ShowFloatNum(56,16,Angle[0],3,2,OLED_8X16);
+	OLED_ShowFloatNum(56,32,Angle[1],3,2,OLED_8X16);
+	OLED_ShowFloatNum(56,48,Angle[2],3,2,OLED_8X16);
+	
+}
 void Menu_Init(void)
 {
     strcpy(menu[0].title, "Main Menu");
@@ -61,9 +68,9 @@ void Menu_Init(void)
     menu[0].item[1].subIndex = 2;
     menu[0].item[1].function = NULL;
     strcpy(menu[0].item[2].name, "IMU");
-    menu[0].item[2].type = function;
+    menu[0].item[2].type = submenu;
     menu[0].item[2].value = 0;
-    menu[0].item[2].subIndex = -1;
+    menu[0].item[2].subIndex = 3;
     menu[0].item[2].function = NULL;
 
     strcpy(menu[1].title, "ADC");
@@ -103,6 +110,25 @@ void Menu_Init(void)
     menu[2].item[2].value = 0;
     menu[2].item[2].subIndex = -1;
     menu[2].item[2].function = NULL;
+	
+	strcpy(menu[3].title, "IMU");
+    menu[3].count = 3;
+    menu[3].parIndex = 0;
+    strcpy(menu[3].item[0].name,"ROLL");
+    menu[3].item[0].type = function;
+    menu[3].item[0].value = 0;
+    menu[3].item[0].subIndex = -1;
+    menu[3].item[0].function = NULL;
+    strcpy(menu[3].item[1].name, "YAW");
+    menu[3].item[1].type = function;
+    menu[3].item[1].value = 0;
+    menu[3].item[1].subIndex = -1;
+    menu[3].item[1].function = NULL;
+    strcpy(menu[3].item[2].name, "PITCH");
+    menu[3].item[2].type = function;
+    menu[3].item[2].value = 0;
+    menu[3].item[2].subIndex = -1;
+    menu[3].item[2].function = NULL;
 }
 
 int16_t menuIndex = 0,itemIndex = 0,mode = 0;

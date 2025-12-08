@@ -7,6 +7,7 @@
 #include "Menu.h"
 #include <string.h>
 #include "W25Q64.h"
+#include "Serial.h"
 
 uint8_t KeyNum;
 
@@ -16,6 +17,8 @@ extern int16_t itemIndex;
 extern int16_t mode;
 
 uint16_t W25Q64Value[3] = {0};
+float Angle[3] = {0};
+
 
 int main ()
 {	
@@ -25,9 +28,18 @@ int main ()
 	Menu_Init();
 	AD_Init();
 	W25Q64_Init();
-	
+	Serial_Init();
+
 	while(1)
 	{
+		
+		if(Serial_RxFlag == 1){
+			
+			Serial_GetSerialPacket(Serial_RxPacket,Angle);
+			
+			Serial_RxFlag = 0;
+		}
+		
 		
 		if(Key_Check(KEY_4,KEY_SINGLE)){
 			up();
@@ -48,8 +60,9 @@ int main ()
 			confirm();
 		}
 		OLED_Clear();
+		
+		
 		if(menuIndex == 1){
-			ADC_DMA_Start();
 			Menu_ShowAD();
 			if(Key_Check(KEY_0,KEY_LONG)){
 				W25Q64_SectorErase(0x00000000);
@@ -57,8 +70,6 @@ int main ()
 				W25Q64_WriteUint16(0x00000002,ADValue[1]);
 				W25Q64_WriteUint16(0x00000004,ADValue[2]);
 			}
-		} else {
-			ADC_DMA_Stop();
 		}
 		if(menuIndex == 2){
 			W25Q64Value[0] = W25Q64_ReadUint16(0x00000000);
@@ -66,10 +77,14 @@ int main ()
 			W25Q64Value[2] = W25Q64_ReadUint16(0x00000004);
 			Menu_ShowW25Q64();
 		}
-		
+		if(menuIndex == 3){
+			
+			Menu_ShowAngle();
+		}
 		
 		
 		OLED_ShowMenu();
+		
 		
 		
 		OLED_Update();
@@ -83,8 +98,10 @@ void TIM2_IRQHandler(void)
 {
 
 	if(TIM_GetITStatus(TIM2,TIM_IT_Update)==SET){
-
+		
 		Key_Tick();
+		
+		
 		
 		TIM_ClearITPendingBit(TIM2,TIM_IT_Update);
 	}

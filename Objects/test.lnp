@@ -37,6 +37,8 @@
 ".\objects\key.o"
 ".\objects\myspi.o"
 ".\objects\w25q64.o"
+".\objects\mpu6050.o"
+".\objects\serial.o"
 --strict --scatter ".\Objects\test.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
