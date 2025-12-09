@@ -5,6 +5,7 @@
 extern char Serial_RxPacket[101];
 extern uint8_t Serial_RxFlag;
 
+
 void Serial_Init(void);
 void Serial_SendByte(uint8_t Byte);
 void Serial_SendArray(uint8_t *Array,uint16_t Length);
@@ -15,5 +16,7 @@ void Serial_Printf(char *format, ...);
 uint8_t Serial_GetRxFlag(void);
 void Serial_SendPacket(void);
 void Serial_GetSerialPacket(char *Packet,float *Angle);
-
+void Serial_HeartBeat(void);
+void HeartBeat_Tick(void);
 #endif
+

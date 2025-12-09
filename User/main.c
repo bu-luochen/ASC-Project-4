@@ -11,6 +11,8 @@
 
 uint8_t KeyNum;
 
+extern uint16_t Time_HB;
+
 extern Menu menu[4];
 extern int16_t menuIndex;
 extern int16_t itemIndex;
@@ -18,8 +20,8 @@ extern int16_t mode;
 
 uint16_t W25Q64Value[3] = {0};
 float Angle[3] = {0};
-
-
+uint8_t Status = 0;
+static uint16_t Count_HB;
 int main ()
 {	
 	OLED_Init();
@@ -34,9 +36,12 @@ int main ()
 	{
 		
 		if(Serial_RxFlag == 1){
-			
-			Serial_GetSerialPacket(Serial_RxPacket,Angle);
-			
+			if(Serial_RxPacket[0] == 'H'){
+				Status = 1;
+				Count_HB = 0;
+			} else {
+				Serial_GetSerialPacket(Serial_RxPacket,Angle);
+			}
 			Serial_RxFlag = 0;
 		}
 		
@@ -60,6 +65,19 @@ int main ()
 			confirm();
 		}
 		OLED_Clear();
+		
+		
+		
+		if(Time_HB >= 200){
+			Time_HB = 0;
+			Serial_HeartBeat();
+		}
+		if(Status == 1){
+			OLED_ShowString(120,0,"+",OLED_8X16);
+		} else {
+			OLED_ShowString(120,0,"-",OLED_8X16);
+		}
+		
 		
 		
 		if(menuIndex == 1){
@@ -100,7 +118,15 @@ void TIM2_IRQHandler(void)
 	if(TIM_GetITStatus(TIM2,TIM_IT_Update)==SET){
 		
 		Key_Tick();
+		HeartBeat_Tick();
 		
+		if(Serial_RxFlag == 0){
+			Count_HB ++;
+			if(Count_HB >= 500){
+				Count_HB = 0;
+				Status = 0;
+			}
+		}
 		
 		
 		TIM_ClearITPendingBit(TIM2,TIM_IT_Update);

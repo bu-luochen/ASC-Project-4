@@ -38,8 +38,8 @@ void Serial_Init(void)
 	NVIC_InitTypeDef NVIC_InitStructure;
 	NVIC_InitStructure.NVIC_IRQChannel=USART1_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelCmd=ENABLE;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=1;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority=1;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority=0;
 	NVIC_Init(&NVIC_InitStructure);
 	
 	USART_Cmd(USART1,ENABLE);
@@ -195,6 +195,21 @@ void Serial_GetSerialPacket(char *Packet,float *Angle)
 		}
 		i ++;
 	}		
+}
+
+void Serial_HeartBeat(void)
+{
+	Serial_Printf("@H\r\n");
+}
+
+uint16_t Time_HB = 0;
+
+void HeartBeat_Tick(void)
+{ 
+	
+	Time_HB ++;
+	
+	
 }
 
 
