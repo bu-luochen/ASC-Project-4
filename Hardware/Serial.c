@@ -206,10 +206,7 @@ uint16_t Time_HB = 0;
 
 void HeartBeat_Tick(void)
 { 
-	
 	Time_HB ++;
-	
-	
 }
 
 

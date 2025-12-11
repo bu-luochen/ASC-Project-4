@@ -10,6 +10,7 @@
 #include "Serial.h"
 
 uint8_t KeyNum;
+uint16_t Time_Store;
 
 extern uint16_t Time_HB;
 
@@ -22,6 +23,9 @@ uint16_t W25Q64Value[3] = {0};
 float Angle[3] = {0};
 uint8_t Status = 0;
 static uint16_t Count_HB;
+
+//uint16_t time = 0;
+
 int main ()
 {	
 	OLED_Init();
@@ -40,6 +44,7 @@ int main ()
 				Status = 1;
 				Count_HB = 0;
 			} else {
+				
 				Serial_GetSerialPacket(Serial_RxPacket,Angle);
 			}
 			Serial_RxFlag = 0;
@@ -68,17 +73,19 @@ int main ()
 		
 		
 		
-		if(Time_HB >= 200){
+		if(Time_HB >= 250){
 			Time_HB = 0;
 			Serial_HeartBeat();
 		}
+		
 		if(Status == 1){
 			OLED_ShowString(120,0,"+",OLED_8X16);
 		} else {
 			OLED_ShowString(120,0,"-",OLED_8X16);
 		}
-		
-		
+	
+//		time ++;
+//		OLED_ShowNum(80,32,time,5,OLED_8X16);
 		
 		if(menuIndex == 1){
 			Menu_ShowAD();
@@ -87,6 +94,10 @@ int main ()
 				W25Q64_WriteUint16(0x00000000,ADValue[0]);
 				W25Q64_WriteUint16(0x00000002,ADValue[1]);
 				W25Q64_WriteUint16(0x00000004,ADValue[2]);
+				Time_Store = 2500;
+			}
+			if(Time_Store > 0){
+				OLED_ShowString(32,0,"Finish",OLED_8X16);
 			}
 		}
 		if(menuIndex == 2){
@@ -122,12 +133,15 @@ void TIM2_IRQHandler(void)
 		
 		if(Serial_RxFlag == 0){
 			Count_HB ++;
-			if(Count_HB >= 500){
+			if(Count_HB >= 650){
 				Count_HB = 0;
 				Status = 0;
 			}
 		}
 		
+		if(Time_Store > 0){
+			Time_Store --;
+		}
 		
 		TIM_ClearITPendingBit(TIM2,TIM_IT_Update);
 	}
